@@ -1,7 +1,7 @@
-<h1>
+<h1 style="margin-bottom:0">
   RuCAd
-  <small>RUSLAN CS:GO Server Administration</small>
 </h1>
+<p style="margin-bottom:20px"><small>RUSLAN CS:GO Server Administration</small></p>
 
 <div class="container">
   <% flash.each do |type, msg| %>
@@ -32,12 +32,21 @@
   clear_cache_path,
   remote: true,
   method: :post,
-  class: "btn btn-outline-primary",
+  class: "btn btn-outline-secondary",
   data: { disable_with: 'Fetching...' },
   form: { id: "cache_clear" }
 ) %>
 
 <hr />
+
 <div class="container" id="server_sending">
   <%= render partial: 'server_sending' %>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col text-small text-center text-muted">
+      Mega Meget &copy;opyright Frederik Spang Thomsen
+    </div>
+  </div>
 </div>

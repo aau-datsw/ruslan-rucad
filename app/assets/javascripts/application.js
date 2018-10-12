@@ -15,7 +15,7 @@
 
 $(document).ready(function(){
   $("#cache_clear").on("ajax:success", function(e) {
-    $("#server_sending").html(e.detail[0]);
+    $("#server_sending").html(e.detail[2].response);
   }).on("ajax:error", function(e) {
     alert("error");
   })

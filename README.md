@@ -1,24 +1,13 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+First build as "frederikspang/csgo-mgmt" or what ever you'd like
 
-Things you may want to cover:
+Then run the server
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```bash
+docker run -d -p "3000:3000" \
+  -e "TOURNAMENT_ID=MYKEY" \
+  -e "CHALLONGE_API_USER=LOGIN" \
+  -e "CHALLONGE_API_KEY=TOKEN" \
+  frederikspang/csgo-mgmt
+```

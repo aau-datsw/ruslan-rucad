@@ -14,10 +14,12 @@ class ApplicationController < ActionController::Base
     # TODO: Fix attachment with connect url
     #@match.attachments.create(link: "steam://connect/#{@server.hostname}/#{@server.password}")
 
-    Open3.popen3("rcon -H #{@server[:ip]} -p #{@server[:port]} get5_load_match_url http://spang.eu.ngrok.io/matches/#{@match.id}.json") {|i,o,e,t|
+    Open3.popen3(
+      "rcon -H #{@server[:ip]} -p #{@server[:port]} -P spangerkongen get5_loadmatch_url spang.eu.ngrok.io/matches/#{@match.id}.json"
+    ) do |i,o,e,t|
       flash[:success] = o.read.chomp
       flash[:error] = e.read.chomp
-    }
+    end
 
     redirect_back fallback_location: root_path
   end
@@ -26,11 +28,11 @@ class ApplicationController < ActionController::Base
     Rails.cache.clear
     @matches = fetch_challonge_matches
 
-    render partial: 'server_sending'
+    render partial: 'server_sending', layout: false
   end
 
   def match
-    @match = Challonge::Match.find(params[:match_id], params: { tournament_id: ENV["TOURNAMENT_ID"] })
+    @match = Challonge::Match.find(params[:id], params: { tournament_id: ENV["TOURNAMENT_ID"] })
 
     render json: {
       matchid: @match.id.to_s,
