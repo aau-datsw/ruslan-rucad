@@ -1,0 +1,32 @@
+<h1>
+  interface til kampe her
+</h1>
+
+<div class="container">
+  <div class="row">
+    <%= form_tag do %>
+      <%=
+        select_tag(
+          :match_id,
+          options_for_select(
+            @matches.collect do |m|
+              ["(#{m.round}) #{m.player1.name} vs. #{m.player2.name}", m.id]
+            end
+          )
+        )
+      %>
+      til
+      <%=
+        select_tag(
+          :server_ip,
+          options_for_select(
+            @servers.collect do |s|
+              ["Server (#{s[:ip]}:#{s[:port]})", "#{s[:ip]}:#{s[:port]}"]
+            end
+          )
+        )
+        %>
+      <%= submit_tag("Send") %>
+    <% end %>
+  </div>
+</div>
