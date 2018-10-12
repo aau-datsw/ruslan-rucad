@@ -1,12 +1,10 @@
+require 'open3'
+
 class ApplicationController < ActionController::Base
+  before_action :set_servers, only: [:index, :clear_cache]
+
   def index
-    @matches = Challonge::Match.find(:all, params: { state: :open, tournament_id: ENV["TOURNAMENT_ID"] }).sort_by(&:round)
-    @servers = [
-      { ip: '1.2.3.4', port: 27010 },
-      { ip: '1.2.3.4', port: 27020 },
-      { ip: '1.2.3.4', port: 27030 },
-      { ip: '1.2.3.4', port: 27040 },
-    ]
+    @matches = fetch_challonge_matches
   end
 
   def start
@@ -16,8 +14,19 @@ class ApplicationController < ActionController::Base
     # TODO: Fix attachment with connect url
     #@match.attachments.create(link: "steam://connect/#{@server.hostname}/#{@server.password}")
 
-    flash[:success] = system("rcon -H #{@server[:ip]} -p #{@server[:port]} get5_load_match_url http://spang.eu.ngrok.io/matches/#{@match.id}.json")
+    Open3.popen3("rcon -H #{@server[:ip]} -p #{@server[:port]} get5_load_match_url http://spang.eu.ngrok.io/matches/#{@match.id}.json") {|i,o,e,t|
+      flash[:success] = o.read.chomp
+      flash[:error] = e.read.chomp
+    }
+
     redirect_back fallback_location: root_path
+  end
+
+  def clear_cache
+    Rails.cache.clear
+    @matches = fetch_challonge_matches
+
+    render partial: 'server_sending'
   end
 
   def match
@@ -51,5 +60,32 @@ class ApplicationController < ActionController::Base
       }
 
     }.to_json
+  end
+
+  private
+
+  def fetch_challonge_matches
+    Rails.cache.fetch("challonge_matches_#{ENV["TOURNAMENT_ID"]}", expires_in: 10.minutes ) do
+      Rails.logger.debug "Fetching Cache"
+      Challonge::Match.find(:all, params: { state: :open, tournament_id: ENV["TOURNAMENT_ID"] }).sort_by(&:round)
+      array = []
+      Challonge::Match.find(:all, params: { state: :open, tournament_id: ENV["TOURNAMENT_ID"] }).each do |match|
+        array << match.as_json["match"].merge(
+          player1: match.player1.as_json["participant"],
+          player2: match.player2.as_json["participant"]
+        )
+      end
+
+      array.map(&:with_indifferent_access)
+    end
+  end
+
+  def set_servers
+    @servers = [
+      { name: 'RUSLAN#1', ip: '127.0.0.1', port: 27010 },
+      { name: 'RUSLAN#2', ip: '127.0.0.1', port: 27020 },
+      { name: 'RUSLAN#3', ip: '127.0.0.1', port: 27030 },
+      { name: 'RUSLAN#4', ip: '127.0.0.1', port: 27040 },
+    ]
   end
 end

@@ -10,4 +10,13 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require jquery3
 //= require rails-ujs
+
+$(document).ready(function(){
+  $("#cache_clear").on("ajax:success", function(e) {
+    $("#server_sending").html(e.detail[0]);
+  }).on("ajax:error", function(e) {
+    alert("error");
+  })
+})

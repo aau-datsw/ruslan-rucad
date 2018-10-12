@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col">
+    <%= form_tag '/'  do %>
+      <div class="form-row">
+        <div class="col">
+          <div class="form-group">
+            <%=
+              select_tag(
+                :match_id,
+                options_for_select(
+                  @matches.collect do |m|
+                    ["(#{m[:round]}) #{m[:player1][:name]} vs. #{m[:player2][:name]}", m[:id]]
+                  end
+                ),
+                class: "form-control"
+              )
+            %>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <%=
+              select_tag(
+                :server_ip,
+                options_for_select(
+                  @servers.collect do |s|
+                    ["#{s[:name]} (#{s[:ip]}:#{s[:port]})", "#{s[:ip]}:#{s[:port]}"]
+                  end
+                ),
+                class: "form-control"
+              )
+            %>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <%= submit_tag("Send", class: "form-control btn-outline-primary") %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
