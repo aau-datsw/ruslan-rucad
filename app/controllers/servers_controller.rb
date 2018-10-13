@@ -1,5 +1,5 @@
 class ServersController < ApplicationController
-  before_action :find_server, only: [:edit, :update, :destroy]
+  before_action :find_server, only: %i[edit update destroy]
 
   def index
     @servers = Server.all
@@ -9,8 +9,7 @@ class ServersController < ApplicationController
     @server = Server.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @server = Server.create!(server_params)
@@ -27,7 +26,7 @@ class ServersController < ApplicationController
     redirect_to servers_path(@server)
   end
 
-  private
+private
 
   def find_server
     @server = Server.find(params[:id]) if params[:id]

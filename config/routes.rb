@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :matches, only: [:index, :show] do
+  resources :matches, only: %i[index show] do
     collection do
       post :clear_cache
       post :start

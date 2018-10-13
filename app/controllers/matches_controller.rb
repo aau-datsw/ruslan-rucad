@@ -8,20 +8,20 @@ class MatchesController < ApplicationController
   end
 
   def show
-    m = Challonge::Match.find(params[:id], params: { tournament_id: ENV["TOURNAMENT_ID"] })
+    m = Challonge::Match.find(params[:id], params: { tournament_id: ENV['TOURNAMENT_ID'] })
 
     render json: {
       matchid: m.id.to_s,
       num_maps: 1,
       players_per_team: 5,
-      maplist: [
-        "de_cache",
-        "de_dust2",
-        "de_inferno",
-        "de_mirage",
-        "de_nuke",
-        "de_overpass",
-        "de_train"
+      maplist: %w[
+        de_cache
+        de_dust2
+        de_inferno
+        de_mirage
+        de_nuke
+        de_overpass
+        de_train
       ],
       team1: {
         name: m.player1.name,
@@ -34,29 +34,28 @@ class MatchesController < ApplicationController
         players: []
       },
       cvars: {
-        get5_check_auths: "0"
+        get5_check_auths: '0'
       }
 
     }.to_json
   end
 
   def start
-    @match = Challonge::Match.find(params[:id], params: { tournament_id: ENV["TOURNAMENT_ID"] })
+    @match = Challonge::Match.find(params[:id], params: { tournament_id: ENV['TOURNAMENT_ID'] })
     @server = { ip: params[:server_ip].split(':').first, port: params[:server_ip].split(':').last }
 
     # TODO: Fix attachment with connect url
-    #@match.attachments.create(link: "steam://connect/#{@server.hostname}/#{@server.password}")
+    # @match.attachments.create(link: "steam://connect/#{@server.hostname}/#{@server.password}")
 
     Open3.popen3(
       "rcon -H #{@server[:ip]} -p #{@server[:port]} -P spangerkongen get5_loadmatch_url spang.eu.ngrok.io/matches/#{@match.id}.json"
-    ) do |i, o, e, t|
+    ) do |_i, o, e, _t|
       flash[:success] = o.read.chomp
       flash[:error] = e.read.chomp
     end
 
     redirect_back fallback_location: root_path
   end
-
 
   def clear_cache
     Rails.cache.clear
@@ -65,7 +64,7 @@ class MatchesController < ApplicationController
     render partial: 'server_sending', layout: false
   end
 
-  private
+private
 
   def set_servers
     @servers = Server.all
