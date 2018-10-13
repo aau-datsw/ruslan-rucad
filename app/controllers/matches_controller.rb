@@ -48,7 +48,7 @@ class MatchesController < ApplicationController
     # @match.attachments.create(link: "steam://connect/#{@server.hostname}/#{@server.password}")
 
     rcon = RconService.new(server: @server)
-    rcon.run("get5_loadmatch_url spang.eu.ngrok.io/matches/#{@match.id}.json") do |_i, o, e, _t|
+    rcon.run("get5_loadmatch_url #{ENV.fetch('PUBLIC_HOSTNAME', '')}/matches/#{@match.id}.json") do |_i, o, e, _t|
       flash[:success] = o.read.chomp
       flash[:error] = e.read.chomp
     end
