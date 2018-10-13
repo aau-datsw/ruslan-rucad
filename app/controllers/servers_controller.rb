@@ -33,6 +33,6 @@ private
   end
 
   def server_params
-    params.require(:server).permit(:name, :ip, :port, :tv_port)
+    params.require(:server).permit(:name, :ip, :port, :tv_port, :server_password, :rcon_password)
   end
 end

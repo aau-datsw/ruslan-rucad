@@ -8,6 +8,7 @@ class RconService
 
     self.ip ||= self.server.ip
     self.port ||= self.server.port
+    self.rcon_password ||= self.server.rcon_password
   end
 
   def run(cmd, &block)
@@ -17,6 +18,7 @@ class RconService
     rcon_string = "#{rcon_string} -P #{self.rcon_password}" if self.rcon_password.present?
     rcon_string = "#{rcon_string} #{cmd || 'status'}"
 
+    Rails.logger.debug "Running `#{cmd}` on #{self.server.hostname}"
     Open3.popen3(rcon_string, &block)
   end
 end
