@@ -11,6 +11,7 @@ require 'open3'
   begin
     require railtie
   rescue LoadError
+    puts 'Load Error for rails module'
   end
 end
 
