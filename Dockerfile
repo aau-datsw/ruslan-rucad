@@ -2,7 +2,7 @@ FROM ruby:2.5.1-slim
 MAINTAINER Frederik Spang <frederik at progras.dk>
 
 RUN apt-get update \
-  && apt-get install -qq -y build-essential curl git gnupg unzip cmake check libglib2.0-dev --fix-missing --no-install-recommends \
+  && apt-get install -qq -y build-essential curl git gnupg unzip cmake check libglib2.0-dev libsqlite3-dev --fix-missing --no-install-recommends \
   && curl -sL https://deb.nodesource.com/setup_10.x | bash - \
   && apt-get update \
   && apt-get install -qq -y nodejs --no-install-recommends
