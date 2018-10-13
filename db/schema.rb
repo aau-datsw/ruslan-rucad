@@ -17,6 +17,8 @@ ActiveRecord::Schema.define(version: 2018_10_13_182238) do
     t.string "ip"
     t.integer "port"
     t.integer "tv_port"
+    t.string "server_password"
+    t.string "rcon_password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["ip"], name: "index_servers_on_ip"

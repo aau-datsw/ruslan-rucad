@@ -5,6 +5,8 @@ class CreateServers < ActiveRecord::Migration[5.2]
       t.string :ip
       t.integer :port
       t.integer :tv_port
+      t.string :server_password
+      t.string :rcon_password
 
       t.timestamps
     end

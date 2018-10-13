@@ -6,7 +6,7 @@
           <div class="form-group">
             <%=
               select_tag(
-                :match_id,
+                :id,
                 options_for_select(
                   @matches.collect do |m|
                     ["(#{m[:round]}) #{m[:player1][:name]} vs. #{m[:player2][:name]}", m[:id]]
@@ -21,10 +21,10 @@
           <div class="form-group">
             <%=
               select_tag(
-                :server_ip,
+                :server_id,
                 options_for_select(
                   @servers.collect do |s|
-                    ["#{s[:name]} (#{s[:ip]}:#{s[:port]})", "#{s[:ip]}:#{s[:port]}"]
+                    ["#{s.name} (#{s.hostname})", s.id]
                   end
                 ),
                 class: "form-control"

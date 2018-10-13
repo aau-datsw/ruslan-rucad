@@ -42,14 +42,13 @@ class MatchesController < ApplicationController
 
   def start
     @match = Challonge::Match.find(params[:id], params: { tournament_id: ENV['TOURNAMENT_ID'] })
-    @server = { ip: params[:server_ip].split(':').first, port: params[:server_ip].split(':').last }
+    @server = Server.find(params[:server_id])
 
     # TODO: Fix attachment with connect url
     # @match.attachments.create(link: "steam://connect/#{@server.hostname}/#{@server.password}")
 
-    Open3.popen3(
-      "rcon -H #{@server[:ip]} -p #{@server[:port]} -P spangerkongen get5_loadmatch_url spang.eu.ngrok.io/matches/#{@match.id}.json"
-    ) do |_i, o, e, _t|
+    rcon = RconService.new(server: @server)
+    rcon.run("get5_loadmatch_url spang.eu.ngrok.io/matches/#{@match.id}.json") do |_i, o, e, _t|
       flash[:success] = o.read.chomp
       flash[:error] = e.read.chomp
     end
