@@ -1,0 +1,23 @@
+<div class="container">
+  <% flash.each do |type, msg| %>
+    <% next if msg.blank? %>
+    <%
+      bs_flash_class = case type
+      when 'success'
+        'alert-success'
+      when 'error'
+        'alert-danger'
+      when 'alert'
+        'alert-warning'
+      when 'notice'
+        'alert-info'
+      else
+        type.to_s
+      end
+    %>
+    <div class="alert <%= bs_flash_class %> alert-dismissable fade show">
+      <%= msg %>
+      <button class="close" data-dismiss="alert">x</button>
+    </div>
+  <% end %>
+</div>

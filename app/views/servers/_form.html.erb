@@ -1,0 +1,37 @@
+<%= form_with model: server, local: true do |f| %>
+  <div class="row">
+    <div class="col-6">
+      <div class="form-row mt-2">
+        <%= f.label :name, class: 'col-sm-2 col-form-label' %>
+        <div class="col-sm-10">
+          <%= f.text_field :name, class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-row mt-2">
+        <%= f.label :ip, class: 'col-sm-2 col-form-label' %>
+        <div class="col-sm-10">
+          <%= f.text_field :ip, class: "form-control" %>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-row mt-2">
+        <%= f.label :port, class: 'col-sm-2 col-form-label' %>
+        <div class="col-sm-10">
+          <%= f.number_field :port, class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-row mt-2">
+        <%= f.label :tv_port, class: 'col-sm-2 col-form-label' %>
+        <div class="col-sm-10">
+          <%= f.number_field :tv_port, class: "form-control" %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col">
+      <%= f.submit class: "btn btn-outline-primary btn-block" %>
+    </div>
+  </div>
+<% end %>

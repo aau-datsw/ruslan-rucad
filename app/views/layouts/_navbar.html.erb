@@ -1,0 +1,28 @@
+<nav>
+  <div class="btn-group">
+    <%= link_to(
+      "Start Matches",
+      root_path,
+      class: "btn btn-sm btn-#{"outline-" unless current_page?(root_path) || current_page?(matches_path)}secondary",
+      style: 'border-top-right-radius: 0;border-bottom-right-radius: 0;'
+    ) %>
+
+    <%= link_to(
+      "Manage Servers",
+      servers_path,
+      class: "btn btn-sm btn-#{"outline-" unless current_page?(servers_path)}secondary",
+      style: 'border-top-left-radius: 0;border-bottom-left-radius: 0;'
+    ) %>
+
+    <%= button_to(
+      "Re-fetch Matches",
+      clear_cache_matches_path,
+      remote: true,
+      method: :post,
+      class: "btn btn-sm btn-#{"outline-" unless current_page?(clear_cache_matches_path)}secondary border-left-0",
+      data: { disable_with: 'Fetching...' },
+      form: { id: "cache_clear" },
+      style: 'border-top-left-radius: 0;border-bottom-left-radius: 0;'
+    ) %>
+  </div>
+</nav>

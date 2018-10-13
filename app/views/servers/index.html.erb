@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Server IP:Port</th>
+            <th>GOTV IP:Port</th>
+            <th style="width: 1%;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @servers.each do |server| %>
+            <tr>
+              <td><%= server.name %></td>
+              <td><%= server.hostname %></td>
+              <td><%= server.tv_hostname %></td>
+              <td>
+                <div class="btn-group">
+                  <a href="steam://connect/<%= server.hostname %>" class="btn btn-outline-primary btn-sm">Game-Connect</a>
+                  <a href="steam://connect/<%= server.tv_hostname %>" class="btn btn-outline-primary btn-sm">TV-Connect</a>
+                  <%= link_to "Edit", edit_server_path(server), class: "btn btn-outline-secondary btn-sm" %>
+                  <%= link_to "Delete", server_path(server), method: :delete, class: "btn btn-outline-danger btn-sm", "data-confirm": 'Are you sure?' %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <%= link_to "New server", new_server_path, class: 'btn btn-outline-primary btn-block' %>
+    </div>
+  </div>
+</div>

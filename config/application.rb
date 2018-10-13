@@ -1,11 +1,11 @@
 require_relative 'boot'
-
-require "rails"
+require 'rails'
+require 'open3'
 
 %w(
+  active_record/railtie
   action_controller/railtie
   action_view/railtie
-  active_job/railtie
   sprockets/railtie
 ).each do |railtie|
   begin
