@@ -13,7 +13,8 @@ class MatchesController < ApplicationController
     render json: {
       matchid: m.id.to_s,
       num_maps: 1,
-      players_per_team: 5,
+      players_per_team: 1,
+      side_type: :always_knife,
       maplist: %w[
         de_cache
         de_dust2
@@ -24,13 +25,17 @@ class MatchesController < ApplicationController
         de_train
       ],
       team1: {
-        name: m.player1.name,
-        tag: m.player1.name,
+        name: m.player1.display_name,
+        tag: m.player1.display_name.gsub(' ', '_'),
+        logo: 'v',
+        flag: :DK,
         players: []
       },
       team2: {
-        name: m.player2.name,
-        tag: m.player2.name,
+        name: m.player2.display_name,
+        tag: m.player2.display_name.gsub(' ', '_'),
+        logo: 'v2',
+        flag: :DK,
         players: []
       },
       cvars: {

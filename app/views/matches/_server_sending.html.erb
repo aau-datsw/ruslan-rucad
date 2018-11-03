@@ -9,7 +9,7 @@
                 :id,
                 options_for_select(
                   @matches.collect do |m|
-                    ["(#{m[:round]}) #{m[:player1][:name]} vs. #{m[:player2][:name]}", m[:id]]
+                    ["(#{m[:round]}) #{m[:player1][:display_name]} vs. #{m[:player2][:display_name]}", m[:id]]
                   end
                 ),
                 class: "form-control"
